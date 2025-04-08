@@ -22,16 +22,16 @@ export const ImageUpload = ({ onUpload }: ImageUploadProps) => {
   return (
     <div
       {...getRootProps()}
-      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
+      className={`border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
         ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
     >
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p className="text-blue-500">Drop the images here...</p>
+        <p className="text-blue-500 text-sm sm:text-base">Drop the images here...</p>
       ) : (
         <div>
-          <p className="text-gray-600">Drag 'n' drop some images here, or click to select files</p>
-          <p className="text-sm text-gray-500 mt-2">Supports JPG, PNG, and WEBP</p>
+          <p className="text-gray-600 text-sm sm:text-base">Drag & drop images here, or click to select files</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-2">Supports JPG, PNG, and WEBP</p>
         </div>
       )}
     </div>

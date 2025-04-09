@@ -1,36 +1,45 @@
 import { useCollageStore } from '../../store/collageStore'
-import { LuX } from 'react-icons/lu'
 
 export const ImagePreview = () => {
-  const images = useCollageStore(state => state.images)
-  const removeImage = useCollageStore(state => state.removeImage)
+  const { images, removeImage } = useCollageStore()
+
+  const handleDragStart = (e: React.DragEvent, imageId: string) => {
+    e.dataTransfer.setData('text/plain', imageId)
+  }
+
+  if (images.length === 0) return null
 
   return (
-    <div className="mt-4 sm:mt-6">
-      <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
-        {images.length} {images.length === 1 ? 'image' : 'images'} uploaded
+    <div className="mt-4">
+      <p className="text-sm text-gray-600 mb-2">
+        {images.length} image{images.length !== 1 ? 's' : ''} uploaded
       </p>
-        {images.length > 0 ? 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {images.map((image) => (
-            <div key={image.id} className="relative group">
-              <img
-                src={image.preview}
-                alt="Uploaded preview"
-                className="w-full h-32 object-cover rounded-lg"
-              />
-              <button
-                onClick={() => removeImage(image.id)}
-                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
-                aria-label="Remove image"
-              >
-                <LuX color="white" size="1rem"/>
-              </button>
-            </div>
-          ))}
-        </div>
-        : undefined}
-      
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
+        {images.map((image) => (
+          <div
+            key={image.id}
+            className="relative group aspect-square"
+          >
+            <img
+              src={image.preview}
+              alt=""
+              className="w-full h-full object-cover rounded-lg"
+              draggable
+              onDragStart={(e) => handleDragStart(e, image.id)}
+            />
+            <button
+              onClick={() => removeImage(image.id)}
+              className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white 
+                       rounded-full opacity-0 group-hover:opacity-100 
+                       transition-opacity flex items-center justify-center
+                       touch-manipulation"
+              aria-label="Remove image"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   )
 } 
